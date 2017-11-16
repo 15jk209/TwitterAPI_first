@@ -110,33 +110,36 @@ public class TimelineActivity extends AppCompatActivity {
     }
 
     private void refreshTimeline(){
-        TwitterApiClient twitterApiClient = TwitterCore.getInstance().getApiClient();
 
-        StatusesService statusesService = twitterApiClient.getStatusesService();
+        if (!tweetList.isEmpty()) {
+            TwitterApiClient twitterApiClient = TwitterCore.getInstance().getApiClient();
 
-        Tweet tweet = tweetList.get(0);
-        //list.get(数値)で(数値ー１)を指定する。(size-1)で最後のtweetを指定する。
+            StatusesService statusesService = twitterApiClient.getStatusesService();
 
-        Call<List<Tweet>> call = statusesService.homeTimeline(30, tweet.getId(), null, false, false, false, false);
-        call.enqueue(new Callback<List<Tweet>>(){
-            @Override
-            public void success(Result<List<Tweet>> result){
+            Tweet tweet = tweetList.get(0);
+            //list.get(数値)で(数値ー１)を指定する。(size-1)で最後のtweetを指定する。
 
-                adapter.notifyDataSetChanged();
-                tweetList.addAll(0, result.data);
-                //リストの先頭に要素を追加する為に(0, item)で記述
+            Call<List<Tweet>> call = statusesService.homeTimeline(30, tweet.getId(), null, false, false, false, false);
+            call.enqueue(new Callback<List<Tweet>>() {
+                @Override
+                public void success(Result<List<Tweet>> result) {
 
-                Toast toast = Toast.makeText(TimelineActivity.this, "タイムライン取得成功", Toast.LENGTH_LONG);
-                toast.show();
+                    adapter.notifyDataSetChanged();
+                    tweetList.addAll(0, result.data);
+                    //リストの先頭に要素を追加する為に(0, item)で記述
 
-            }
+                    Toast toast = Toast.makeText(TimelineActivity.this, "タイムライン取得成功", Toast.LENGTH_LONG);
+                    toast.show();
 
-            @Override
-            public void failure(TwitterException exception){
-                Toast toast = Toast.makeText(TimelineActivity.this, "タイムライン取得エラー", Toast.LENGTH_LONG);
-                toast.show();
-            }
-        });
+                }
+
+                @Override
+                public void failure(TwitterException exception) {
+                    Toast toast = Toast.makeText(TimelineActivity.this, "タイムライン取得エラー", Toast.LENGTH_LONG);
+                    toast.show();
+                }
+            });
+        }
     }
 
 
