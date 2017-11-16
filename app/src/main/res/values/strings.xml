@@ -1,0 +1,7 @@
+<resources>
+    <string name="app_name">TwitterAPI_first</string>
+    <string name="title_activity_post_tweet_activity">Post_tweet_activity</string>
+    <string name="title_activity_time_line">TimeLineActivity</string>
+    <string name="title_activity_timeline">TimelineActivity</string>
+    <string name="title_activity_login_">Login_Activity</string>
+</resources>
