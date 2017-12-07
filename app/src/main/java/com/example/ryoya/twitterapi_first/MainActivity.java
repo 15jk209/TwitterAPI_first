@@ -4,15 +4,10 @@ import android.content.Intent;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.util.Log;
-import android.view.View;
-import android.widget.Button;
-import android.widget.SeekBar;
 import android.widget.Toast;
 import com.twitter.sdk.android.core.*;
 import com.twitter.sdk.android.core.identity.*;
 import com.twitter.sdk.android.core.TwitterCore;
-
-import static com.example.ryoya.twitterapi_first.R.id.seekBar1;
 
 
 public class MainActivity extends AppCompatActivity{

@@ -6,6 +6,7 @@ import android.support.design.widget.FloatingActionButton;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.view.View;
+import android.widget.Button;
 import android.widget.EditText;
 import android.widget.SeekBar;
 import android.widget.Toast;
@@ -41,6 +42,11 @@ public class Post_tweet_activity extends AppCompatActivity {
         final SeekBar seekBar2 = (SeekBar) findViewById(R.id.seekBar2);
         final SeekBar seekBar3 = (SeekBar) findViewById(R.id.seekBar3);
         final SeekBar seekBar4 = (SeekBar) findViewById(R.id.seekBar4);
+        Button button1 = (Button) findViewById(R.id.angry);
+        Button button2 = (Button) findViewById(R.id.sad);
+        Button button3 = (Button) findViewById(R.id.fun);
+        Button button4 = (Button) findViewById(R.id.enjoy);
+
 
         FloatingActionButton fab = (FloatingActionButton) findViewById(R.id.fab);
         fab.setOnClickListener(new View.OnClickListener() {
@@ -54,10 +60,14 @@ public class Post_tweet_activity extends AppCompatActivity {
                 try{
                     fos = openFileOutput(file, Context.MODE_PRIVATE);
                     fos.write(editText.getText().toString().getBytes());
-                    fos.write(seekBar1.getProgress());
-                    fos.write(seekBar2.getProgress());
-                    fos.write(seekBar3.getProgress());
-                    fos.write(seekBar4.getProgress());
+                    String seek1 = String.valueOf(seekBar1.getProgress()+1);
+                    fos.write(seek1.getBytes());
+                    String seek2 = String.valueOf(seekBar2.getProgress()+1);
+                    fos.write(seek2.getBytes());
+                    String seek3 = String.valueOf(seekBar3.getProgress()+1);
+                    fos.write(seek3.getBytes());
+                    String seek4 = String.valueOf(seekBar4.getProgress()+1);
+                    fos.write(seek4.getBytes());
 
                 }catch(IOException e){
                     e.printStackTrace();
@@ -69,9 +79,31 @@ public class Post_tweet_activity extends AppCompatActivity {
                         e.printStackTrace();
                     }
                 }
+                finish();
+
+                FileInputStream fis = null;
+                try{
+                    fis = openFileInput(file);
+                    byte buffer[] = new byte[100];
+
+                    fis.read(buffer);
+
+                    String str = new String(buffer).trim();//trim()は先頭または最後の空白を切り取る
+
+                    Toast.makeText(Post_tweet_activity.this, str + "が登録されています", Toast.LENGTH_SHORT).show();
+                }catch (IOException e){
+                    e.printStackTrace();
+                    Toast.makeText(Post_tweet_activity.this, "読み込みに失敗しました" , Toast.LENGTH_SHORT).show();
+                }finally{
+                    try{
+                        if(fis != null)
+                            fis.close();
+                    }catch(IOException e){
+                        e.printStackTrace();
+                    }
+                }
             }
         });
-
     }
 
     private void postTweet(String message){
